@@ -1,0 +1,72 @@
+import random
+
+options = ['rock', 'paper', 'scissors']
+game_dic = {'scissors': 'rock',
+            'rock': 'paper',
+            'paper': 'scissors'}
+
+
+def get_rating(player_name, filename="rating.txt"):
+    try:
+        with open(filename, 'r') as f:
+            for line in f:
+                name, rating = line.strip().split()
+                if name == player_name:
+                    return int(rating)
+    except FileNotFoundError:
+        return 0
+    return 0
+
+def get_game_options():
+    options_input = input().split(',')
+    if not options_input[0]:
+        return ['rock', 'paper', 'scissors']
+    return [option.strip() for option in options_input]
+
+def determine_winner(user_option, computer_option, options):
+    user_index = options.index(user_option)
+    num_options = len(options)
+    half = num_options // 2
+    winning_options = []
+    for i in range(half):
+        winning_options.append(options[(user_index + 1 + i) % num_options])
+    if user_option == computer_option:
+        return 'draw'
+    elif computer_option in winning_options:
+        return 'loss'
+    else:
+        return 'win'
+
+def game():
+    filename = "rating.txt"
+    player_name = input('Enter your name: ')
+    rating = get_rating(player_name, filename)
+    print(f'Hello, {player_name}')
+
+    options = get_game_options()
+    print("Okay, let's start!")
+
+    while True:
+        user_option = input()
+        if user_option == '!exit':
+            print("Bye!")
+            break
+        elif user_option == '!rating':
+            print(f'Your rating: {rating}')
+        elif user_option not in options:
+            print('Invalid input')
+        else:
+            computer_option = random.choice(options)
+            result = determine_winner(user_option, computer_option, options)
+            if result == 'draw':
+                print(f'There is a draw ({computer_option})')
+                rating += 50
+            elif result == 'win':
+                print(f'Well done. The computer chose {computer_option} and failed')
+                rating += 100
+            else:
+                print(f'Sorry, but the computer chose {computer_option}')
+
+
+if __name__ == "__main__":
+    game()
