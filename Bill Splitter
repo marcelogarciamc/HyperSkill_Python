@@ -1,0 +1,30 @@
+import random
+
+print('Enter the number of friends joining (including you):')
+guest_count = int(input())
+guest_dictionary = {}
+guest_list = []
+lucky_guest = ""
+
+if guest_count > 0:
+    while len(guest_list) < guest_count:
+        print('Enter the name of every friend (including you), each on a new line:')
+        new_guest = input()
+        guest_list.append(new_guest)
+    print('Enter the total bill value:')
+    bill = float(input())
+    print('Do you want to use the "Who is lucky?" feature? Write Yes / No:')
+    lucky_day = input()
+    if lucky_day == "Yes":
+        lucky_guest = random.choice(guest_list)
+        print(f'{lucky_guest} is the lucky one!')
+        guest_count -= 1
+    else:
+        print('No one is going to be lucky')
+    split_bill = round(bill / guest_count, 2)
+    guest_dictionary = {guest: split_bill for guest in guest_list}
+    if lucky_guest != "":
+        guest_dictionary.update({lucky_guest: 0})
+    print(guest_dictionary)
+else:
+    print('No one is joining for the party')
