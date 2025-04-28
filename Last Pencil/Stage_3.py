@@ -34,10 +34,10 @@ print('How many pencils would you like to use:')
 pencil_count = int(input())
 print(f'Who will be the first ({name_one}, {name_two}):')
 current_player = input()
-while pencils > 0:
+while pencil_count > 0:
     print("|" * pencil_count)
-    print(f"f"{current_player}'s turn:")
+    print(f"{current_player}'s turn:")
     pencil_count -= int(input())
-    current_player = name_one if turn == name_two else name_two
+    current_player = name_one if current_player == name_two else name_two
 
 '''
